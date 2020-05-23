@@ -32,10 +32,10 @@ namespace SalesWebMvc.Data
             Department D4 = new Department { Id = 4, Name = "Others" };
 
             Seller S1 = new Seller(1, "Bob", "Boob@email", new DateTime(1989, 5, 21), 55230, D1);
-            Seller S2 = new Seller(2, "Jose", "Boob@email", new DateTime(1959, 5, 21), 55230, D2);
-            Seller S3 = new Seller(3, "Felipe", "Boob@email", new DateTime(1987, 5, 21), 55230, D3);
-            Seller S4 = new Seller(4, "Laura", "Boob@email", new DateTime(1999, 5, 21), 55230, D4);
-            Seller S5 = new Seller(5, "Carol", "Boob@email", new DateTime(2020, 5, 21), 55230, D1);
+            Seller S2 = new Seller(2, "Jose", "Jose@email", new DateTime(1959, 5, 21), 21345, D2);
+            Seller S3 = new Seller(3, "Felipe", "Felipe@email", new DateTime(1987, 5, 21), 75685, D3);
+            Seller S4 = new Seller(4, "Laura", "Laura@email", new DateTime(1999, 5, 21), 35241, D4);
+            Seller S5 = new Seller(5, "Carol", "Carol@email", new DateTime(2020, 5, 21), 42563, D1);
 
             SalesRecord Sr1 = new SalesRecord(1, new DateTime(2020, 9, 25), 11000, SalesStatus.BILLED, S1);
             SalesRecord Sr2 = new SalesRecord(2, new DateTime(2020, 9, 25), 200, SalesStatus.PENDING, S2);
