@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using SalesWebMvc.Services.Exceptions;
 using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace SalesWebMvc.Services
 {
@@ -35,9 +36,17 @@ namespace SalesWebMvc.Services
         }
         public async Task RemoveSellerAsync(int Id)
         {
-            var obj = _context.Seller.Find(Id);
-            _context.Seller.Remove(obj);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var obj = _context.Seller.Find(Id);
+                _context.Seller.Remove(obj);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException("Existem vendas associadas a esse vendedor, exclua elas antes.");
+            }
         }
         public async Task UpdateAsync(Seller seller)
         {
