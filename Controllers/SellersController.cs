@@ -39,6 +39,17 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
+            //caso o javascript esteja desabilitado o IF abaixo valida se os requisitos foram validados.
+            if (!ModelState.IsValid)
+            {
+                List<Department> departments = _departmentService.FindAll();
+                SellerFormViewModel viewModel = new SellerFormViewModel
+                {
+                    Departments = departments,
+                    Seller = seller
+                };
+                return View(viewModel);
+            };
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
@@ -99,6 +110,17 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                List<Department> departments = _departmentService.FindAll();
+                SellerFormViewModel viewModel = new SellerFormViewModel
+                {
+                    Departments = departments,
+                    Seller = seller
+                };
+                return View(viewModel);
+            };
+
             if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não corresponde com o Id do Seller" });
