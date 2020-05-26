@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using SalesWebMvc.Services.Exceptions;
+using System.Threading.Tasks;
 
 namespace SalesWebMvc.Services
 {
@@ -18,29 +19,31 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Seller> FindAll()
+        public async Task<List<Seller>> FindAllAsync()
         {
-            return _context.Seller.ToList();
+            return await _context.Seller.ToListAsync();
         }
 
-        public void Insert(Seller obj)
+        public async Task InsertAsync(Seller obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public Seller FindById(int id)
+        public async Task<Seller> FindByIdAsync(int id)
         {
-            return _context.Seller.Include(obj => obj.Departament).FirstOrDefault(s => s.Id == id);
+            return await _context.Seller.Include(obj => obj.Departament).FirstOrDefaultAsync(s => s.Id == id);
         }
-        public void RemoveSeller(int Id)
+        public async Task RemoveSellerAsync(int Id)
         {
             var obj = _context.Seller.Find(Id);
             _context.Seller.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public void Update(Seller seller)
+        public async Task UpdateAsync(Seller seller)
         {
-            if (!_context.Seller.Any(x => x.Id == seller.Id))
+            // chamo a função assincrona para guardar numa variavel e depois testa-la, para ficar didático.
+            bool hasAny = await _context.Seller.AnyAsync(x => x.Id == seller.Id);
+            if (!hasAny)
             {
                 throw new NotFoundException("Seller not found");
             }
@@ -48,9 +51,9 @@ namespace SalesWebMvc.Services
             try
             {
                 _context.Update(seller);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
-            catch(DbUpdateConcurrencyException e) 
+            catch (DbUpdateConcurrencyException e)
             {
                 throw new DbconcurrencyException("Conflito encontrado ao atualizar os dados." + e.Message);
             }
