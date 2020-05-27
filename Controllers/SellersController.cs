@@ -2,10 +2,8 @@
 using SalesWebMvc.Models;
 using SalesWebMvc.Services;
 using SalesWebMvc.Models.ViewModels;
-using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 using System.Collections.Generic;
 using SalesWebMvc.Services.Exceptions;
-using System.Reflection.Metadata.Ecma335;
 using System.Diagnostics;
 using System;
 using System.Threading.Tasks;
